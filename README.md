@@ -32,4 +32,6 @@ Some of these would have been nice to add but due to time constrains they were l
 * Allowing different types of responses would be nice - at present we are coupled to JSON
 * Moving the parser logic from command.php, where we determine the type of parser to use, would be nice to put behind an interface and use from with Application class, this logic is run too early.
 * The provided HTML has 2 ids for section tag, this should be improved by removing ids
+* Use better understandable options and validate options.
+* Colour the terminal for output
 
