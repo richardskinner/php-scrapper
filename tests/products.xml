@@ -1,0 +1,20 @@
+<?xml version='1.0' standalone='yes'?>
+<products>
+    <product>
+        <title>Product 1</title>
+        <description>Lorem ipsum</description>
+        <price>7.99</price>
+        <discount>5.99</discount>
+    </product>
+    <product>
+        <title>Product 2</title>
+        <description>Lorem ipsum</description>
+        <price>8.99</price>
+    </product>
+    <product>
+        <title>Product 3</title>
+        <description>Lorem ipsum</description>
+        <price>9.99</price>
+        <discount>6.99</discount>
+    </product>
+</products>
