@@ -17,6 +17,7 @@ This CLI tool was developed using PHP8+. A few features was used from PHP8+ were
 ## Setup & Run
 
 * Make sure your machine is running PHP8+
+* Check where your php is located using `which php` and replace the first line `command.php` with your php location e.g. `#!/usr/bin/php` is what usually comes up
 * Install packages `composer install` (Only PHPUnit)
 * Run the application from root dir
   * First param should `html`
