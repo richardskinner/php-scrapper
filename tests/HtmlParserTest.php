@@ -15,7 +15,6 @@ class HtmlParserTest extends TestCase
 
         $parser = $this->initParser($file);
         $products = $parser->getProducts();
-        print_r($products);
         $this->assertIsArray($products);
         $this->assertArrayHasKey('name', $products[0]);
         $this->assertArrayHasKey('description', $products[0]);
