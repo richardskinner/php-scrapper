@@ -5,12 +5,13 @@ namespace Scrapper\Cli\Parser;
 use DOMDocument;
 use DOMElement;
 use RuntimeException;
-use Scrapper\Cli\Subscription\SubscriptionTypes;
+use Scrapper\Cli\Enum\SubscriptionTypes;
 
 class HtmlParser implements ParseProductsInterface
 {
     private const SEARCH_STRING_PER_MONTH = 'Per Month';
     private const SEARCH_STRING_PER_YEAR = 'Per Year';
+
     public function __construct(private ?string $fileLocation)
     {
     }
@@ -79,12 +80,13 @@ class HtmlParser implements ParseProductsInterface
 
     private function isAnnualOrMonthlySubscription(string $price): string
     {
+
         if (str_contains($price, self::SEARCH_STRING_PER_MONTH)) {
-            return SubscriptionTypes::MONTHLY;
+            return SubscriptionTypes::MONTHLY->value;
         }
 
         if (str_contains($price, self::SEARCH_STRING_PER_YEAR)) {
-            return SubscriptionTypes::ANNUALLY;
+            return SubscriptionTypes::ANNUALLY->value;
         }
 
         return '';
