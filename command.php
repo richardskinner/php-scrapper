@@ -9,8 +9,11 @@ libxml_use_internal_errors(true); // used as HTML5 elements don't seem to work w
 
 require 'vendor/autoload.php';
 
+use DI\Container;
 use Scrapper\Cli\Application;
+use Scrapper\Cli\Commands\CommandRegistry;
 
-$container = new \DI\Container();
-$app = new Application($container, $argc, $argv);
+$container = new Container();
+$commandRegistry = new CommandRegistry();
+$app = new Application($container, $commandRegistry, $argc, $argv);
 $app->run();

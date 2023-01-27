@@ -3,50 +3,50 @@
 namespace Scrapper\Cli;
 
 use RuntimeException;
-use Scrapper\Cli\Commands\CommandInterface;
-use Scrapper\Cli\Commands\Help;
-use Scrapper\Cli\Commands\Parser;
+use Scrapper\Cli\Commands\CommandRegistry;
 use DI\Container;
 
 class Application
 {
-    private array $commandRegistry = [
-        'help' => Help::class,
-        'parser' => Parser::class,
-    ];
-
-    public function __construct(private Container $container, private int $argc, private array $argv)
+    public function __construct(
+        private Container $container,
+        private CommandRegistry $commandRegistry,
+        private int $argc,
+        private array $argv
+    )
     {
-
     }
 
-    public function addCommand(string $name, string $commandClass)
+    private function registerCommands(): void
     {
-        $this->commandRegistry[$name] = $commandClass;
+        // TODO: move so this object is built through the DI container
+        $commands = include 'config/commands.php';
 
-        return $this;
+        foreach ($commands['commands'] as $command => $callable) {
+            $this->commandRegistry->register(
+                $command,
+                fn(array $argv) => ($this->container->get($callable))->runCommand($argv)
+            );
+        }
     }
 
     private function getCommand(): string
     {
-        if ($this->argc <= 1) {
-            throw new RuntimeException('No command provided. See help for more information.');
-        }
+        $commandNamespace = explode(':', $this->argv[1]);
 
-        return $this->argv[1];
+        return $commandNamespace[0];
     }
 
     public function run(): void
     {
-        $commandType = $this->getCommand();
-        $commandType = explode(':', $commandType);
-        $commandOption = $commandType[0];
-
-        if (empty($this->commandRegistry[$commandOption])) {
-            throw new RuntimeException('No command exists. See help for more information.');
+        if ($this->argc <= 1) {
+            throw new RuntimeException(' No command provided.');
         }
+        $this->registerCommands();
+        $command = $this->getCommand();
 
-        $command = $this->container->get($this->commandRegistry[$commandOption]);
-        $command->runCommand($this->argv);
+        call_user_func($this->commandRegistry->getCommand($command), $this->argv);
+
+        exit(0);
     }
 }
