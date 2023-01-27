@@ -20,7 +20,7 @@ class Application
     private function registerCommands(): void
     {
         // TODO: move so this object is built through the DI container
-        $commands = include 'config/commands.php';
+        $commands = include './config/commands.php';
 
         foreach ($commands['commands'] as $command => $callable) {
             $this->commandRegistry->register(

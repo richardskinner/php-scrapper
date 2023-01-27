@@ -2,11 +2,10 @@
 
 namespace Scrapper\Cli\Test\Commands;
 
-use Scrapper\Cli\Commands\CommandInterface;
+use Scrapper\Cli\Commands\Command;
 
-class TestClass implements CommandInterface
+class TestClass extends Command
 {
-
     public function runCommand(?array $argv): void
     {
         echo 'HELLO WORLD!';

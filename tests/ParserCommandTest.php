@@ -3,10 +3,11 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use Scrapper\Cli\Commands\CommandInterface;
+use Scrapper\Cli\Commands\Command;
 use Scrapper\Cli\Commands\Parser;
 use Scrapper\Cli\Parser\ParseProductsInterface;
 use Scrapper\Cli\Parser\ParserProvider;
+use Wujunze\Colors;
 
 class ParserCommandTest extends TestCase
 {
@@ -15,7 +16,7 @@ class ParserCommandTest extends TestCase
      */
     public function testParserCommandReturnsCorrectResponseType(array $productsArray)
     {
-        $this->expectOutputString(json_encode([$productsArray], JSON_PRETTY_PRINT));
+        $this->expectOutputString(json_encode([$productsArray], JSON_PRETTY_PRINT) . '[0m');
 
         $interface = $this->createMock(ParseProductsInterface::class);
         $interface->method('getProducts')->willReturn([$productsArray]);
@@ -41,8 +42,8 @@ class ParserCommandTest extends TestCase
         ];
     }
 
-    private function initParserCommand(ParserProvider $parserProvider): CommandInterface
+    private function initParserCommand(ParserProvider $parserProvider): Command
     {
-        return new Parser($parserProvider);
+        return new Parser(new Colors(), $parserProvider);
     }
 }
