@@ -1,19 +1,16 @@
 #!/usr/local/opt/php@8.1/bin/php
 <?php
 
-libxml_use_internal_errors(true); // used as HTML5 elements don't seem to work with PHP DomDocument
+if (php_sapi_name() !== 'cli') {
+    throw new RuntimeException('This is not running as a cli application');
+}
 
-use Scrapper\Cli\Application;
-use Scrapper\Cli\Parser\ParserProvider;
+libxml_use_internal_errors(true); // used as HTML5 elements don't seem to work with PHP DomDocument
 
 require 'vendor/autoload.php';
 
-if ($argc == 1 || $argv[1] == '--help') {
-    die('This is a command line application use --help to get available parameters');
-}
+use Scrapper\Cli\Application;
 
-$parserProvider = new ParserProvider();
-$parser = $parserProvider->getParser($argv[1], $argv[2]);
-
-$app = new Application($parser);
+$container = new \DI\Container();
+$app = new Application($container, $argc, $argv);
 $app->run();
